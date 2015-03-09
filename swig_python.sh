@@ -2,8 +2,18 @@
 
 # Compiles and export C module to python 
 # using SWIG
+# 
+# Raul Valenzuela
+# 2015
 
-swig -python example.i 
+# locate interface file name
+IFILE="$(ls *.i)"
+
+# parse module name
+MODNAME=${IFILE%.i}
+
+# runs swig for python with the inteface file
+swig -python $IFILE
 
 # determine python interpreter used
 PYINT="$(which python)"
@@ -14,11 +24,11 @@ INCDIR=/include/python2.7
 INCPATH=${PYINT/$BINDIR/$INCDIR}
 
 # compile
-gcc -c example.c example_wrap.c "-I$INCPATH" 
+gcc -c "$MODNAME.c" "${MODNAME}_wrap.c" "-I$INCPATH" 
 
 # link libraries
 OFILES="$(ls *.o)"
-ld -shared $OFILES -o _example.so
+ld -shared $OFILES -o "_${MODNAME}.so"
 
 # remove unncessary files
 rm *.o *wrap.c
