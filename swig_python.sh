@@ -21,4 +21,4 @@ OFILES="$(ls *.o)"
 ld -shared $OFILES -o _example.so
 
 # remove unncessary files
-# rm *.o *.py *wrap.c
+rm *.o *wrap.c
